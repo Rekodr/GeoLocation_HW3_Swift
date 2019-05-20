@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol SettingControllerViewControllerDelegate{
-    func indicateSelection(units: (String, String))
+protocol SettingViewControllerDelegate{
+    func settingChanged(units: (String, String))
 }
 
 class SettingControllerViewController: UIViewController {
@@ -20,21 +20,25 @@ class SettingControllerViewController: UIViewController {
     @IBOutlet weak var unitsPicker: UIPickerView!
     
     // Picker data
-    let unitPickerData: [String] = ["Mile","Kilometer"]
+    let unitPickerData: [String] = ["Miles","Kilometer"]
     let bearingUnitPickerData: [String] = ["Mils","Degrees"]
-    var currDstUnit: String = "Kilometer"
-    var currBearingUnit: String = "Mils"
+    var currDstUnit: String?
+    var currBearingUnit: String?
     
     var senderBtnTag :Int = 0
-    var delegate: SettingControllerViewControllerDelegate?
+    var delegate: SettingViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.unitsPicker.isHidden = true
         self.unitsPicker.delegate = self
         self.unitsPicker.dataSource = self
-        self.distanceButton.setTitle(self.currDstUnit, for: .normal)
-        self.bearingButton.setTitle(self.currBearingUnit, for: .normal)
+        if let dstUnit = currDstUnit {
+            if let bearingUnit = currBearingUnit {
+                self.distanceButton.setTitle(dstUnit, for: .normal)
+                self.bearingButton.setTitle(bearingUnit, for: .normal)
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -42,16 +46,23 @@ class SettingControllerViewController: UIViewController {
     }
     
     @IBAction func btnEventListener(_ sender: UIButton) {
-        self.senderBtnTag = sender.tag
-        self.unitsPicker.reloadAllComponents()
+        senderBtnTag = sender.tag
+        unitsPicker.reloadComponent(0)
+        var idx = 0
+        
+        // update picker selected Value to be appropriate curr unit
+        if senderBtnTag == distanceButton.tag {
+            idx = unitPickerData.firstIndex(of: currDstUnit!)!
+        } else {
+            idx = bearingUnitPickerData.firstIndex(of: currBearingUnit!)!
+        }
+        unitsPicker.selectRow(idx, inComponent: 0, animated: false)
         self.unitsPicker.isHidden = false
     }
     
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if let d = self.delegate {
-            d.indicateSelection(units: (currDstUnit, currBearingUnit))
+    func saveSettings() {
+        if let delegate = self.delegate {
+            delegate.settingChanged(units: (currDstUnit!, currBearingUnit!))
         }
     }
 }
@@ -87,7 +98,7 @@ extension SettingControllerViewController : UIPickerViewDataSource, UIPickerView
             currDstUnit = unitPickerData[row]
             distanceButton.setTitle(currDstUnit, for: .normal)
 
-        }else{
+        } else {
             //save the selected row in the current bearing unit
             currBearingUnit = bearingUnitPickerData[row]
             bearingButton.setTitle(currBearingUnit, for: .normal)

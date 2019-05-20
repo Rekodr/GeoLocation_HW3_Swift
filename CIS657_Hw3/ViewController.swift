@@ -8,16 +8,20 @@
 
 import UIKit
 import CoreLocation
-class ViewController: UIViewController, SettingControllerViewControllerDelegate  {
+class ViewController: UIViewController, SettingViewControllerDelegate {
 
     @IBOutlet weak var latitude1: UITextField!
     @IBOutlet weak var latitude2: UITextField!
     @IBOutlet weak var longitude1: UITextField!
     @IBOutlet weak var longitude2: UITextField!
     @IBOutlet weak var distanceLabel: UILabel!
+    var currDstUnit: String = ""
+    var currBearingUnit: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        currDstUnit = "Kilometer"
+        currBearingUnit = "Mils"
     }
 
     @IBAction func clearBtnPush(_ sender: UIButton) {
@@ -55,8 +59,22 @@ class ViewController: UIViewController, SettingControllerViewControllerDelegate 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let dest = segue.destination as? SettingControllerViewController {
-            dest.delegate = self
+        if let nav = segue.destination as? UINavigationController {
+            if let dest = nav.children[0] as? SettingControllerViewController {
+                dest.delegate = self
+                dest.currBearingUnit = self.currBearingUnit
+                dest.currDstUnit = self.currDstUnit
+            }
+        }
+    }
+    
+    @IBAction func cancelSettings(segue: UIStoryboardSegue) {
+        print("cancel")
+    }
+    
+    @IBAction func saveSettings(segue: UIStoryboardSegue) {
+        if let src = segue.source as? SettingControllerViewController {
+            src.saveSettings()
         }
     }
     
@@ -64,9 +82,9 @@ class ViewController: UIViewController, SettingControllerViewControllerDelegate 
         self.view.endEditing(true)
     }
     
-    func indicateSelection(units: (String, String)) {
-        print(units)
+    func settingChanged(units: (String, String)) {
+        (self.currDstUnit, self.currBearingUnit) = units
+        print("dist: \(self.currDstUnit), bearing: \(self.currBearingUnit)")
     }
-    
 }
 

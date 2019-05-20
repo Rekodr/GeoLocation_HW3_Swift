@@ -101,7 +101,7 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="109.82142857142857"/>
         </scene>
-        <!--Setting Controller View Controller-->
+        <!--Settings-->
         <scene sceneID="nE4-sh-n6j">
             <objects>
                 <viewController id="I1N-KE-J35" customClass="SettingControllerViewController" customModule="CIS657_Hw3" customModuleProvider="target" sceneMemberID="viewController">
@@ -151,7 +151,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="0Kg-o1-Rt7"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Y6j-pj-4LC"/>
+                    <navigationItem key="navigationItem" title="Settings" id="Y6j-pj-4LC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="epN-xx-mK8">
+                            <connections>
+                                <segue destination="UnI-72-dE9" kind="unwind" unwindAction="cancelSettingsWithSegue:" id="gaO-zp-32U"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="MCA-S1-F5t">
+                            <connections>
+                                <segue destination="UnI-72-dE9" kind="unwind" unwindAction="saveSettingsWithSegue:" id="NmF-N1-VhV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="bearingButton" destination="0Fu-gc-rdM" id="OKy-GA-cpp"/>
                         <outlet property="distanceButton" destination="K1V-CR-9Bw" id="Edp-gy-fA0"/>
@@ -159,6 +170,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0eQ-UB-9JE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="UnI-72-dE9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2731.8840579710145" y="107.8125"/>
         </scene>
