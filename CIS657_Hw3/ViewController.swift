@@ -26,7 +26,6 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         super.viewDidLoad()
         currDstUnit = "Kilometers"
         currBearingUnit = "Degrees"
-        longitude1.keyboardType = UIKeyboardType.numbersAndPunctuation
     }
 
     @IBAction func clearBtnPush(_ sender: UIButton) {
