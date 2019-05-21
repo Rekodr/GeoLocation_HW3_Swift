@@ -20,7 +20,7 @@ class SettingControllerViewController: UIViewController {
     @IBOutlet weak var unitsPicker: UIPickerView!
     
     // Picker data
-    let unitPickerData: [String] = ["Miles","Kilometer"]
+    let unitPickerData: [String] = ["Miles","Kilometers"]
     let bearingUnitPickerData: [String] = ["Mils","Degrees"]
     var currDstUnit: String?
     var currBearingUnit: String?
@@ -47,16 +47,20 @@ class SettingControllerViewController: UIViewController {
     
     @IBAction func btnEventListener(_ sender: UIButton) {
         senderBtnTag = sender.tag
-        unitsPicker.reloadComponent(0)
-        var idx = 0
+        var idx: Int?
         
         // update picker selected Value to be appropriate curr unit
-        if senderBtnTag == distanceButton.tag {
+        switch senderBtnTag {
+        case distanceButton.tag:
             idx = unitPickerData.firstIndex(of: currDstUnit!)!
-        } else {
+        case bearingButton.tag:
             idx = bearingUnitPickerData.firstIndex(of: currBearingUnit!)!
+        default:
+            idx = 0
         }
-        unitsPicker.selectRow(idx, inComponent: 0, animated: false)
+
+        unitsPicker.reloadComponent(0)
+        unitsPicker.selectRow(idx!, inComponent: 0, animated: false)
         self.unitsPicker.isHidden = false
     }
     
@@ -97,7 +101,6 @@ extension SettingControllerViewController : UIPickerViewDataSource, UIPickerView
             //save the selected row in the current distance unit
             currDstUnit = unitPickerData[row]
             distanceButton.setTitle(currDstUnit, for: .normal)
-
         } else {
             //save the selected row in the current bearing unit
             currBearingUnit = bearingUnitPickerData[row]

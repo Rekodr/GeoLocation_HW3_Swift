@@ -14,24 +14,31 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     @IBOutlet weak var latitude2: UITextField!
     @IBOutlet weak var longitude1: UITextField!
     @IBOutlet weak var longitude2: UITextField!
-    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var distanceTextField: UITextField!
+    @IBOutlet weak var bearingTextField: UITextField!
+    
+    let kmToMiles = 0.621371
+    let degToMils = 17.777777777778
     var currDstUnit: String = ""
     var currBearingUnit: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currDstUnit = "Kilometer"
-        currBearingUnit = "Mils"
+        currDstUnit = "Kilometers"
+        currBearingUnit = "Degrees"
+        longitude1.keyboardType = UIKeyboardType.numbersAndPunctuation
     }
 
     @IBAction func clearBtnPush(_ sender: UIButton) {
-        self.latitude1.text = ""
-        self.latitude2.text = ""
-        self.longitude1.text = ""
-        self.longitude2.text = ""
-        self.distanceLabel.text = ""
+        self.latitude1.text = "43.077366"
+        self.latitude2.text = "43.077303"
+        self.longitude1.text = "-85.994053"
+        self.longitude2.text = "-85.993860"
+        self.distanceTextField.text = "0"
+        self.bearingTextField.text = "0"
     }
-    @IBAction func calculateBtnPush(_ sender: UIButton) {
+    
+    func computeDistance() {
         var point1 = CLLocation()
         var point2 = CLLocation()
         if let lat1 = self.latitude1.text{
@@ -41,17 +48,58 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         } else {
             
         }
-    
+        
         if let lat2 = self.latitude2.text{
             if let long2 = self.longitude2.text{
                 point2 = CLLocation(latitude: Double(lat2)!, longitude: Double(long2)!)
             }
-        } else {
-            
+        }
+        var distance = (point1.distance(from: point2)) / 1000.0;
+        switch currDstUnit {
+        case "Kilometers":
+            distance *= 1.0
+        case "Miles":
+            distance *= kmToMiles
+        default:
+            distance += 1.0
+        }
+        self.distanceTextField.text = String(format: "%.2f \(currDstUnit)", distance)
+    }
+    
+    func computeBearing() {
+        
+        let lat1 = Double(latitude1.text!)!
+        let long1 = Double(longitude1.text!)!
+        let lat2 = Double(latitude2.text!)!
+        let long2 = Double(longitude2.text!)!
+        
+        let degLat1 = lat1 * Double.pi / 180.0
+        let degLong1 = long1 * Double.pi / 180.0
+
+        let degLat2 = lat2 * Double.pi / 180.0
+        let degLong2 = long2 * Double.pi / 180.0
+        
+        let dlong = degLong2 - degLong1
+        
+        let y = sin(dlong) * cos(degLat2)
+        let x = cos(degLat1) * sin(degLat2) - sin(degLat1) * cos(degLat2) * cos(dlong)
+        var bearing = atan2(y, x) * (180.0 / Double.pi)
+        
+        switch currBearingUnit {
+        case "Mils":
+            bearing *= degToMils
+        case "Degrees":
+            bearing *= 1.0
+        default:
+            bearing *= 1.0
         }
         
-        let distance = (point1.distance(from: point2)) / 1000;
-        self.distanceLabel.text = String(distance);
+        self.bearingTextField.text = String(format: "%.2f \(currBearingUnit)", bearing)
+    }
+    
+    @IBAction func calculateBtnPush(_ sender: UIButton) {
+        computeDistance()
+        computeBearing()
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,6 +120,7 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         print("cancel")
     }
     
+    
     @IBAction func saveSettings(segue: UIStoryboardSegue) {
         if let src = segue.source as? SettingControllerViewController {
             src.saveSettings()
@@ -84,7 +133,8 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     
     func settingChanged(units: (String, String)) {
         (self.currDstUnit, self.currBearingUnit) = units
-        print("dist: \(self.currDstUnit), bearing: \(self.currBearingUnit)")
+        computeDistance()
+        computeBearing()
     }
 }
 
