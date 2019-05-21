@@ -37,23 +37,33 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         self.distanceTextField.text = "0"
         self.bearingTextField.text = "0"
     }
-    
-    func computeDistance() {
+    func parseTextInput() -> (CLLocation, CLLocation) {
         var point1 = CLLocation()
         var point2 = CLLocation()
-        if let lat1 = self.latitude1.text{
-            if let long1 = self.longitude1.text{
+        if var lat1 = self.latitude1.text{
+            if var long1 = self.longitude1.text{
+                lat1 = lat1 == "" ? "0" : lat1
+                long1 = long1 == "" ? "0" : long1
                 point1 = CLLocation(latitude: Double(lat1)!, longitude: Double(long1)!)
             }
         } else {
             
         }
         
-        if let lat2 = self.latitude2.text{
-            if let long2 = self.longitude2.text{
+        if var lat2 = self.latitude2.text{
+            if var long2 = self.longitude2.text{
+                lat2 = lat2 == "" ? "0" : lat2
+                long2 = long2 == "" ? "0" : long2
                 point2 = CLLocation(latitude: Double(lat2)!, longitude: Double(long2)!)
             }
         }
+        return (point1, point2)
+    }
+    
+    func computeDistance() {
+        var point1 = CLLocation()
+        var point2 = CLLocation()
+        (point1, point2) = parseTextInput()
         var distance = (point1.distance(from: point2)) / 1000.0;
         switch currDstUnit {
         case "Kilometers":
@@ -67,15 +77,17 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     }
     
     func computeBearing() {
+        var point1 = CLLocation()
+        var point2 = CLLocation()
+        (point1, point2) = parseTextInput()
         
-        let lat1 = Double(latitude1.text!)!
-        let long1 = Double(longitude1.text!)!
-        let lat2 = Double(latitude2.text!)!
-        let long2 = Double(longitude2.text!)!
+        let lat1 = point1.coordinate.latitude
+        let long1 = point1.coordinate.longitude
+        let lat2 = point2.coordinate.latitude
+        let long2 = point2.coordinate.longitude
         
         let degLat1 = lat1 * Double.pi / 180.0
         let degLong1 = long1 * Double.pi / 180.0
-
         let degLat2 = lat2 * Double.pi / 180.0
         let degLong2 = long2 * Double.pi / 180.0
         
