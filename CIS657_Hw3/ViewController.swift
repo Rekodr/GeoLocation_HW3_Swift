@@ -29,12 +29,17 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     }
 
     @IBAction func clearBtnPush(_ sender: UIButton) {
-        self.latitude1.text = "43.077366"
-        self.latitude2.text = "43.077303"
-        self.longitude1.text = "-85.994053"
-        self.longitude2.text = "-85.993860"
-        self.distanceTextField.text = "0"
-        self.bearingTextField.text = "0"
+//        self.latitude1.text = "43.077366"
+//        self.latitude2.text = "43.077303"
+//        self.longitude1.text = "-85.994053"
+//        self.longitude2.text = "-85.993860"
+        
+        self.latitude1.text = ""
+        self.latitude2.text = ""
+        self.longitude1.text = ""
+        self.longitude2.text = ""
+        self.distanceTextField.text = ""
+        self.bearingTextField.text = ""
     }
     func parseTextInput() -> (CLLocation, CLLocation) {
         var point1 = CLLocation()
