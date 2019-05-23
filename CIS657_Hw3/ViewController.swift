@@ -14,8 +14,9 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     @IBOutlet weak var latitude2: UITextField!
     @IBOutlet weak var longitude1: UITextField!
     @IBOutlet weak var longitude2: UITextField!
-    @IBOutlet weak var distanceTextField: UITextField!
-    @IBOutlet weak var bearingTextField: UITextField!
+    
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var bearingLabel: UILabel!
     
     let kmToMiles = 0.621371
     let degToMils = 17.777777777778
@@ -38,8 +39,8 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         self.latitude2.text = ""
         self.longitude1.text = ""
         self.longitude2.text = ""
-        self.distanceTextField.text = ""
-        self.bearingTextField.text = ""
+        self.distanceLabel.text = "Distance:"
+        self.bearingLabel.text = "Bearing:"
     }
     func parseTextInput() -> (CLLocation, CLLocation) {
         var point1 = CLLocation()
@@ -77,7 +78,7 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         default:
             distance += 1.0
         }
-        self.distanceTextField.text = String(format: "%.2f \(currDstUnit)", distance)
+        self.distanceLabel.text = String(format: "Distance: %.2f \(currDstUnit)", distance)
     }
     
     func computeBearing() {
@@ -110,7 +111,7 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
             bearing *= 1.0
         }
         
-        self.bearingTextField.text = String(format: "%.2f \(currBearingUnit)", bearing)
+        self.bearingLabel.text = String(format: "Bearing: %.2f \(currBearingUnit)", bearing)
     }
     
     @IBAction func calculateBtnPush(_ sender: UIButton) {
