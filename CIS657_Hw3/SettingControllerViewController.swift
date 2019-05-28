@@ -30,6 +30,7 @@ class SettingControllerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setNeedsStatusBarAppearanceUpdate()
         self.unitsPicker.isHidden = true
         self.unitsPicker.delegate = self
         self.unitsPicker.dataSource = self
@@ -39,6 +40,10 @@ class SettingControllerViewController: UIViewController {
                 self.bearingButton.setTitle(bearingUnit, for: .normal)
             }
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -108,5 +113,3 @@ extension SettingControllerViewController : UIPickerViewDataSource, UIPickerView
         }
     }
 }
-
-

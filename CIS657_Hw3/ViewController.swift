@@ -25,8 +25,14 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setNeedsStatusBarAppearanceUpdate()
+        self.view.backgroundColor = BACKGROUND_COLOR
         currDstUnit = "Kilometers"
         currBearingUnit = "Degrees"
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
 
     @IBAction func clearBtnPush(_ sender: UIButton) {
@@ -152,6 +158,12 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         (self.currDstUnit, self.currBearingUnit) = units
         computeDistance()
         computeBearing()
+    }
+}
+
+extension UINavigationController {
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return topViewController?.preferredStatusBarStyle ?? .default
     }
 }
 
