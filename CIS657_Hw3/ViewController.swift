@@ -129,12 +129,10 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let nav = segue.destination as? UINavigationController {
-            if let dest = nav.children[0] as? SettingControllerViewController {
-                dest.delegate = self
-                dest.currBearingUnit = self.currBearingUnit
-                dest.currDstUnit = self.currDstUnit
-            }
+        if let dest = segue.destination as? SettingControllerViewController {
+            dest.delegate = self
+            dest.currBearingUnit = self.currBearingUnit
+            dest.currDstUnit = self.currDstUnit
         }
     }
     

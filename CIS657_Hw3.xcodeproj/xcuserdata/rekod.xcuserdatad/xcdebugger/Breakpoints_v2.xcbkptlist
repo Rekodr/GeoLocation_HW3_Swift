@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CIS657_Hw3/SettingControllerViewController.swift"
-            timestampString = "580748558.746016"
+            timestampString = "580778285.0947241"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CIS657_Hw3/ViewController.swift"
-            timestampString = "580777529.333691"
+            timestampString = "580778285.094782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "UINavigationController"
             landmarkType = "21">
          </BreakpointContent>
