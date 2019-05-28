@@ -19,6 +19,7 @@
 		8EA7D74C228B984900452676 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA7D74A228B984900452676 /* LaunchScreen.storyboard */; };
 		8EA7D757228B984900452676 /* CIS657_Hw3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7D756228B984900452676 /* CIS657_Hw3Tests.swift */; };
 		8EA7D762228B984900452676 /* CIS657_Hw3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7D761228B984900452676 /* CIS657_Hw3UITests.swift */; };
+		8EDD6D18229DF13C00549D78 /* LocationLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD6D17229DF13C00549D78 /* LocationLookup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		8EA7D75D228B984900452676 /* CIS657_Hw3UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CIS657_Hw3UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA7D761228B984900452676 /* CIS657_Hw3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIS657_Hw3UITests.swift; sourceTree = "<group>"; };
 		8EA7D763228B984900452676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EDD6D17229DF13C00549D78 /* LocationLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationLookup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				8E7A042B229D79E2001133BF /* GeoCalcTextField.swift */,
 				8E7A042D229D7DC0001133BF /* GeoCalcLabel.swift */,
 				8E7A042F229D7E61001133BF /* GeoCalcButton.swift */,
+				8EDD6D17229DF13C00549D78 /* LocationLookup.swift */,
 			);
 			path = CIS657_Hw3;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			files = (
 				8E8BDEFE228CDD9000FEA765 /* SettingControllerViewController.swift in Sources */,
 				8EA7D744228B984800452676 /* ViewController.swift in Sources */,
+				8EDD6D18229DF13C00549D78 /* LocationLookup.swift in Sources */,
 				8E5D4A2B2294563B0050DC95 /* DecimalMinusTextField.swift in Sources */,
 				8EA7D742228B984800452676 /* AppDelegate.swift in Sources */,
 				8E7A042C229D79E2001133BF /* GeoCalcTextField.swift in Sources */,

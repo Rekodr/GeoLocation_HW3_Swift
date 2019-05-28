@@ -22,6 +22,7 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     let degToMils = 17.777777777778
     var currDstUnit: String = ""
     var currBearingUnit: String = ""
+    var entries: [LocationLookup] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +72,7 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         return (point1, point2)
     }
     
-    func computeDistance() {
-        var point1 = CLLocation()
-        var point2 = CLLocation()
-        (point1, point2) = parseTextInput()
+    func computeDistance(point1: CLLocation, point2: CLLocation) {
         var distance = (point1.distance(from: point2)) / 1000.0;
         switch currDstUnit {
         case "Kilometers":
@@ -87,11 +85,7 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         self.distanceLabel.text = String(format: "Distance: %.2f \(currDstUnit)", distance)
     }
     
-    func computeBearing() {
-        var point1 = CLLocation()
-        var point2 = CLLocation()
-        (point1, point2) = parseTextInput()
-        
+    func computeBearing(point1: CLLocation, point2: CLLocation) {
         let lat1 = point1.coordinate.latitude
         let long1 = point1.coordinate.longitude
         let lat2 = point2.coordinate.latitude
@@ -121,8 +115,13 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     }
     
     @IBAction func calculateBtnPush(_ sender: UIButton) {
-        computeDistance()
-        computeBearing()
+        var point1 = CLLocation()
+        var point2 = CLLocation()
+        (point1, point2) = parseTextInput()
+
+        computeDistance(point1: point1, point2: point2)
+        computeBearing(point1: point1, point2: point2)
+        entries.append(LocationLookup(origLat: point1.coordinate.latitude, origLng: point1.coordinate.longitude, destLat: point2.coordinate.latitude, destLng: point2.coordinate.longitude, timeStamp: Date()))
     }
     
     override func didReceiveMemoryWarning() {
@@ -156,8 +155,13 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     
     func settingChanged(units: (String, String)) {
         (self.currDstUnit, self.currBearingUnit) = units
-        computeDistance()
-        computeBearing()
+        
+        var point1 = CLLocation()
+        var point2 = CLLocation()
+        (point1, point2) = parseTextInput()
+        computeDistance(point1: point1, point2: point2)
+        computeBearing(point1: point1, point2: point2)
+
     }
 }
 
