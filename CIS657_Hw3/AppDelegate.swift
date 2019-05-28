@@ -9,8 +9,8 @@
 import UIKit
 
 
-let BACKGROUND_COLOR = UIColor.init(red:0.000, green:0.369, blue:0.420, alpha:1.00) // Blueish
-let FOREGROUND_COLOR = UIColor.init(red: 0.937, green: 0.820, blue: 0.576, alpha: 1.0)  // Tannish
+let BACKGROUND_COLOR = UIColor.init(red: 58/255, green: 56/255, blue: 53/255, alpha: 1.0)
+let FOREGROUND_COLOR = UIColor.init(red: 1, green: 167/255, blue: 28/255, alpha: 1.0)
 
 
 @UIApplicationMain
@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navAppearance.barTintColor = BACKGROUND_COLOR
         navAppearance.tintColor = FOREGROUND_COLOR
         navAppearance.isTranslucent = false
-        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FOREGROUND_COLOR]
         return true
     }
 
