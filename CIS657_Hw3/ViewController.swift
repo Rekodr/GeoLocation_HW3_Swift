@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation
-class ViewController: UIViewController, SettingViewControllerDelegate {
+class ViewController: UIViewController, SettingViewControllerDelegate, HistoryTableViewControllerDelegate {
 
     @IBOutlet weak var latitude1: UITextField!
     @IBOutlet weak var latitude2: UITextField!
@@ -22,7 +22,11 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     let degToMils = 17.777777777778
     var currDstUnit: String = ""
     var currBearingUnit: String = ""
-    var entries: [LocationLookup] = []
+    
+    var entries: [LocationLookup] = [
+//        LocationLookup(origLat: 90.0, origLng: 0.0, destLat: -90.0, destLng: 0.0, timeStamp: Date.distantPast),
+//        LocationLookup(origLat: -90.0, origLng: 0.0, destLat: 90.0, destLng: 0.0, timeStamp: Date.distantFuture)
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +36,10 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         currBearingUnit = "Degrees"
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
@@ -41,7 +49,6 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
 //        self.latitude2.text = "43.077303"
 //        self.longitude1.text = "-85.994053"
 //        self.longitude2.text = "-85.993860"
-        
         self.latitude1.text = ""
         self.latitude2.text = ""
         self.longitude1.text = ""
@@ -114,32 +121,41 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
         self.bearingLabel.text = String(format: "Bearing: %.2f \(currBearingUnit)", bearing)
     }
     
-    @IBAction func calculateBtnPush(_ sender: UIButton) {
+    func compute() {
         var point1 = CLLocation()
         var point2 = CLLocation()
         (point1, point2) = parseTextInput()
-
+        
         computeDistance(point1: point1, point2: point2)
         computeBearing(point1: point1, point2: point2)
         entries.append(LocationLookup(origLat: point1.coordinate.latitude, origLng: point1.coordinate.longitude, destLat: point2.coordinate.latitude, destLng: point2.coordinate.longitude, timeStamp: Date()))
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    @IBAction func calculateBtnPush(_ sender: UIButton) {
+        compute()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let dest = segue.destination as? SettingControllerViewController {
-            dest.delegate = self
-            dest.currBearingUnit = self.currBearingUnit
-            dest.currDstUnit = self.currDstUnit
+        if let destId = segue.identifier {
+            if destId == "settingsSegue"{
+                let dest = segue.destination as! SettingControllerViewController
+                dest.delegate = self
+                //taking information from the mainController to settingsController
+                dest.currBearingUnit = self.currBearingUnit
+                dest.currDstUnit = self.currDstUnit
+            } else if destId == "historySegue"{
+                let dest = segue.destination as! HistoryTableViewController
+                //take entries from mainController to historyController
+                dest.entries = self.entries
+                dest.delegate = self
+            }
         }
     }
     
     @IBAction func cancelSettings(segue: UIStoryboardSegue) {
+        segue.source.navigationController?.popViewController(animated: true)
         print("cancel")
     }
-    
     
     @IBAction func saveSettings(segue: UIStoryboardSegue) {
         if let src = segue.source as? SettingControllerViewController {
@@ -153,13 +169,15 @@ class ViewController: UIViewController, SettingViewControllerDelegate {
     
     func settingChanged(units: (String, String)) {
         (self.currDstUnit, self.currBearingUnit) = units
-        
-        var point1 = CLLocation()
-        var point2 = CLLocation()
-        (point1, point2) = parseTextInput()
-        computeDistance(point1: point1, point2: point2)
-        computeBearing(point1: point1, point2: point2)
-
+        compute()
+    }
+    
+    func selectEntry(entry: LocationLookup) {
+        latitude1.text = String(entry.origLat)
+        longitude1.text = String(entry.origLng)
+        latitude2.text = String(entry.destLat)
+        longitude2.text = String(entry.destLng)
+        compute()
     }
 }
 

@@ -73,6 +73,7 @@ class SettingControllerViewController: UIViewController {
         if let delegate = self.delegate {
             delegate.settingChanged(units: (currDstUnit!, currBearingUnit!))
         }
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
