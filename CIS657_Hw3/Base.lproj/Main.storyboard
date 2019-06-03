@@ -279,7 +279,7 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="XQh-iQ-Jiy">
                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="199.5"/>
                                                 </imageView>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image2" translatesAutoresizingMaskIntoConstraints="NO" id="tcm-hE-M9q">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image2" translatesAutoresizingMaskIntoConstraints="NO" id="tcm-hE-M9q">
                                                     <rect key="frame" x="207" y="0.0" width="207" height="199.5"/>
                                                 </imageView>
                                             </subviews>
@@ -349,7 +349,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Image2" width="520.5" height="453.5"/>
         <image name="image1" width="426.66665649414062" height="510.33334350585938"/>
-        <image name="image2" width="426.66665649414062" height="310.33334350585938"/>
     </resources>
 </document>
